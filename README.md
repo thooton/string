@@ -9,4 +9,4 @@ According to some people on the internet, every newbie to c++ should write a str
 - Haskell basic list operations `drop`, `head`, `init`, `last`, `tail`, `take`.
 - Functional operations `filter`, `forEach`, `map`, `reduce`, `reduceRight`.
 - No support for UTF-8.
-- Unoptimized.
+- Very unoptimized, especially searching operations such as `indexOf`.
