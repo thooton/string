@@ -5,6 +5,8 @@
 #include <type_traits> // for std::is_*
 #include <string.h> // for strlen
 #include <ostream> // for std::ostream
+#include <string>
+#include <vector>
 
 class string {
 private:
@@ -121,6 +123,7 @@ public:
 	string operator+(double) const;
     string operator+(char) const;
     string operator+(char32_t) const;
+    string operator+(bool) const;
     
     template<typename T> enable_if_ptr<T, char, void> operator+=(T&& str) {
         if (isSingleton()) {
@@ -155,6 +158,7 @@ public:
 	void operator+=(double);
     void operator+=(char);
     void operator+=(char32_t);
+    void operator+=(bool);
 
     template<typename T> friend enable_if_ptr<T, char, string> operator+(T&& a, const string& b) {
         return string(
@@ -181,6 +185,7 @@ public:
 	friend string operator+(double a, const string& b);
     friend string operator+(char a, const string& b);
     friend string operator+(char32_t a, const string& b);
+    friend string operator+(bool a, const string& b);
 private:
 /* compare.cpp */
     int compareInternal(const char*, uint32_t) const;
@@ -643,6 +648,8 @@ public:
 	float parseFloat();
 	double parseDouble();
     char* toCharArray() const;
+    std::string toStl() const;
+    std::vector<char> toVec() const;
     friend std::ostream& operator<<(std::ostream&, const string&);
 private:
 /* toCase.cpp */
@@ -656,6 +663,9 @@ public:
     string trim() const;
     string trimLeft() const;
     string trimRight() const;
+/* valid.cpp */
+    bool isUtf8() const;
+    string toUtf8() const;
 };
 
 #endif

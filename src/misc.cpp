@@ -34,6 +34,16 @@ char* string::toCharArray() const {
     res[len] = '\0';
     return res;
 }
+std::string string::toStl() const {
+    return std::string(data(), length());
+}
+std::vector<char> string::toVec() const {
+    std::vector<char> vec;
+    u32 slen = length();
+    vec.reserve(slen);
+    memcpy(vec.data(), data(), slen);
+    return vec;
+}
 
 std::ostream& operator<<(std::ostream& stream, const string& s) {
     stream.write(s.data(), s.length());

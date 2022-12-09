@@ -80,6 +80,14 @@ string string::operator+(char32_t cp) const {
     );
 }
 
+string string::operator+(bool val) const {
+    if (val) {
+        return string::operator+("true");
+    } else {
+        return string::operator+("false");
+    }
+}
+
 void string::operator+=(int64_t val) {
 	if (isSingleton()) {
 		char buf[I2S_BUFLEN];
@@ -137,6 +145,17 @@ void string::operator+=(char32_t val) {
     if (isSingleton()) {
         char buf[5];
         pushSingleton(buf, cp2utf8(buf, val));
+    } else {
+        *this = *this + val;
+    }
+}
+void string::operator+=(bool val) {
+    if (isSingleton()) {
+        if (val) {
+            pushSingleton("true", 4);
+        } else {
+            pushSingleton("false", 5);
+        }
     } else {
         *this = *this + val;
     }
@@ -209,6 +228,12 @@ string operator+(char a, const string& b) {
     return s;
 }
 string operator+(char32_t a, const string& b) {
+    string s = "";
+    s += a;
+    s += b;
+    return s;
+}
+string operator+(bool a, const string& b) {
     string s = "";
     s += a;
     s += b;
