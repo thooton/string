@@ -1,12 +1,11 @@
 # string
-According to some people on the internet, every newbie to c++ should write a string class. This is my attempt.
-- Immutable, atomically reference-counted for simplicity and convenience. No need for `const string&`.
-- Easily convertable to a `cstr()`.
-- `+` and `+=` operators implemented for `string`, `const char*`, all `intN_t` & `uintN_t`, `float`, `double`.
-- `+=` in a loop has `std::vector` performance characteristics due to appending in-place with singly-referenced strings.
-- Familiar functions `compareTo`, `startsWith`, `endsWith`, `includes`, `indexOf`, `indexOfNot`, `lastIndexOf`, `lastIndexOfNot`, `padLeft`, `padRight`, `parseInt`, `parseFloat`, `parseDouble`, `repeat`, `replace`, `reverse`, `split`, `substring`, `toCharArray`, `toUpperCase`, `toTitleCase`, `toLowerCase`, `trim`, `trimLeft`, `trimRight`.
+This project attempts to provide a string type that is both convenient and performant.
+- Immutable and atomically reference-counted (no need for `const string&`).
+- Short-string optimization performed on strings less than `sizeof(string)` - 16 bytes on 64-bit systems and 12 bytes on 32-bit systems.
+- Construction with string literals (`string val = "..."`) is `O(1)`, thanks to C++ template string literals (`template <uint32_t LITLEN> const char(&)[LITLEN]`).
 - `substring` is `O(1)` due to reference counting.
-- Haskell basic list operations `drop`, `head`, `init`, `last`, `tail`, `take`.
-- Functional operations `filter`, `forEach`, `map`, `reduce`, `reduceRight`.
-- No support for UTF-8.
-- Very unoptimized, especially searching operations such as `indexOf`.
+- Searching algorithms used in `countOf`, `indexOf`, `lastIndexOf`, `includes`, `replace` are optimized as they are taken from CPython.
+- `toUpperCase`, `toTitleCase`, `toLowerCase`, `capitalize`, `trim*` methods have full UTF-8 support, although it is not required; invalid UTF-8 is safe with all methods. 
+- `+` and `+=` operators implemented for many data types, including integral and floating-point, as well as `char` and `char32_t`.
+
+To compile, simply compile all *.cpp files in the `src` directory (but not any of its subdirectories).
