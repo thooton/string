@@ -18,11 +18,11 @@ bool string::startsWith(char32_t cp) const {
 bool string::endsWithInternal(const char* str, u32 str_len) const {
     u32 len = length();
     if (len < str_len) {
-		return false;
-	}
+        return false;
+    }
 
-	u32 start = len - str_len;
-	return memcmp(data()+start, str, str_len) == 0;
+    u32 start = len - str_len;
+    return memcmp(data()+start, str, str_len) == 0;
 }
 bool string::endsWith(char ch) const {
     return last() == ch;

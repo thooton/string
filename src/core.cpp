@@ -57,14 +57,14 @@ static char* allocWithFooter(u32 len) {
     return memory+sizeof(refc_t);
 }
 static u32 nextHighestPowerOfTwo(u32 v) {
-	v--;
-	v |= v >> 1;
-	v |= v >> 2;
-	v |= v >> 4;
-	v |= v >> 8;
-	v |= v >> 16;
-	v++;
-	return v;
+    v--;
+    v |= v >> 1;
+    v |= v >> 2;
+    v |= v >> 4;
+    v |= v >> 8;
+    v |= v >> 16;
+    v++;
+    return v;
 }
 typedef struct {
     char* data;
@@ -383,8 +383,8 @@ void string::ensureSpaceFor(u32 more) {
     }
 }
 void string::pushSingleton(const char* str, u32 len) {
-	ensureSpaceFor(len);
-	if (ssoActive()) {
+    ensureSpaceFor(len);
+    if (ssoActive()) {
         int sso_len = getSsoLen();
         memcpy(SSO_DATA+sso_len, str, len);
         int new_len = sso_len + len;
@@ -399,8 +399,8 @@ void string::pushSingleton(const char* str, u32 len) {
     }
 }
 void string::pushSingletonChar(int val) {
-	ensureSpaceFor(1);
-	if (ssoActive()) {
+    ensureSpaceFor(1);
+    if (ssoActive()) {
         int sso_len = getSsoLen();
         SSO_DATA[sso_len] = val;
         SSO_DATA[sso_len+1] = '\0';

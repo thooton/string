@@ -50,8 +50,8 @@ public:
 
     string(const string&);
     string& operator=(const string&);
-	string(string&&);
-	string& operator=(string&&);
+    string(string&&);
+    string& operator=(string&&);
 #define SSO_CAP (sizeof(alloc)-1)
 #define SSO_DATA ((char*)&alloc)
 #define SSO_INFO (*(SSO_DATA + SSO_CAP))
@@ -76,23 +76,23 @@ private:
     void shrinkNonSubstringToFitLength(uint32_t);
 public:
     string substring(uint32_t) const;
-	string substring(uint32_t, uint32_t) const;
+    string substring(uint32_t, uint32_t) const;
 /* plus.cpp */
     // stolen from tiny_utf8
     template<typename T, typename CharType, typename DataType = bool>
-		using enable_if_ptr = typename std::enable_if<
-			std::is_pointer<typename std::remove_reference<T>::type>::value
-			&&
-			std::is_same<
-				CharType
-				, typename std::remove_cv<
-					typename std::remove_pointer<
-						typename std::remove_reference<T>::type
-					>::type
-				>::type
-			>::value
-			, DataType
-		>::type;
+        using enable_if_ptr = typename std::enable_if<
+            std::is_pointer<typename std::remove_reference<T>::type>::value
+            &&
+            std::is_same<
+                CharType
+                , typename std::remove_cv<
+                    typename std::remove_pointer<
+                        typename std::remove_reference<T>::type
+                    >::type
+                >::type
+            >::value
+            , DataType
+        >::type;
     template<typename T> enable_if_ptr<T, char, string> operator+(T&& str) const {
         return string(
             data(), str,
@@ -105,22 +105,22 @@ public:
             length(), LITLEN-1
         );
     }
-	string operator+(const string& s) const {
+    string operator+(const string& s) const {
         return string(
             data(), s.data(), 
             length(), s.length()
         );
     }
-	string operator+(int64_t) const;
-	string operator+(uint64_t) const;
-	string operator+(int32_t) const;
-	string operator+(uint32_t) const;
-	string operator+(int16_t) const;
-	string operator+(uint16_t) const;
-	string operator+(int8_t) const;
-	string operator+(uint8_t) const;
-	string operator+(float) const;
-	string operator+(double) const;
+    string operator+(int64_t) const;
+    string operator+(uint64_t) const;
+    string operator+(int32_t) const;
+    string operator+(uint32_t) const;
+    string operator+(int16_t) const;
+    string operator+(uint16_t) const;
+    string operator+(int8_t) const;
+    string operator+(uint8_t) const;
+    string operator+(float) const;
+    string operator+(double) const;
     string operator+(char) const;
     string operator+(char32_t) const;
     string operator+(bool) const;
@@ -139,23 +139,23 @@ public:
             *this = *this + literal;
         }
     }
-	void operator+=(const string& s) {
+    void operator+=(const string& s) {
         if (isSingleton()) {
             pushSingleton(s.data(), s.length());
         } else {
             *this = *this + s;
         }
     }
-	void operator+=(int64_t);
-	void operator+=(uint64_t);
-	void operator+=(int32_t);
-	void operator+=(uint32_t);
-	void operator+=(int16_t);
-	void operator+=(uint16_t);
-	void operator+=(int8_t);
-	void operator+=(uint8_t);
-	void operator+=(float);
-	void operator+=(double);
+    void operator+=(int64_t);
+    void operator+=(uint64_t);
+    void operator+=(int32_t);
+    void operator+=(uint32_t);
+    void operator+=(int16_t);
+    void operator+=(uint16_t);
+    void operator+=(int8_t);
+    void operator+=(uint8_t);
+    void operator+=(float);
+    void operator+=(double);
     void operator+=(char);
     void operator+=(char32_t);
     void operator+=(bool);
@@ -173,16 +173,16 @@ public:
         );
     }
 
-	friend string operator+(int8_t a, const string& b);
-	friend string operator+(uint8_t a, const string& b);
-	friend string operator+(int16_t a, const string& b);
-	friend string operator+(uint16_t a, const string& b);
-	friend string operator+(int32_t a, const string& b);
-	friend string operator+(uint32_t a, const string& b);
-	friend string operator+(int64_t a, const string& b);
-	friend string operator+(uint64_t a, const string& b);
-	friend string operator+(float a, const string& b);
-	friend string operator+(double a, const string& b);
+    friend string operator+(int8_t a, const string& b);
+    friend string operator+(uint8_t a, const string& b);
+    friend string operator+(int16_t a, const string& b);
+    friend string operator+(uint16_t a, const string& b);
+    friend string operator+(int32_t a, const string& b);
+    friend string operator+(uint32_t a, const string& b);
+    friend string operator+(int64_t a, const string& b);
+    friend string operator+(uint64_t a, const string& b);
+    friend string operator+(float a, const string& b);
+    friend string operator+(double a, const string& b);
     friend string operator+(char a, const string& b);
     friend string operator+(char32_t a, const string& b);
     friend string operator+(bool a, const string& b);
@@ -249,75 +249,75 @@ public:
     string take(uint32_t) const;
 /* more functionals */
     template <typename F> string filter(F f) const {
-		string result = "";
-		uint32_t my_slen = length();
-		for (uint32_t i = 0; i < my_slen; i++) {
-			int ch = (*this)[i];
-			if (f(ch)) {
-				result.pushSingletonChar(ch);
-			}
-		}
-		return result;
-	}
-	template <typename F> string filterWithIndex(F f) const {
-		string result = "";
-		uint32_t my_slen = length();
-		for (uint32_t i = 0; i < my_slen; i++) {
-			int ch = (*this)[i];
-			if (f(ch, i)) {
-				result.pushSingletonChar(ch);
-			}
-		}
-		return result;
-	}
-	template <typename F> void forEach(F f) const {
-		uint32_t my_len = length();
-		for (uint32_t i = 0; i < my_len; i++) {
-			f((*this)[i]);
-		}
-	}
-	template <typename F> void forEachWithIndex(F f) const {
-		uint32_t my_len = length();
-		for (uint32_t i = 0; i < my_len; i++) {
-			f((*this)[i], i);
-		}
-	}
+        string result = "";
+        uint32_t my_slen = length();
+        for (uint32_t i = 0; i < my_slen; i++) {
+            int ch = (*this)[i];
+            if (f(ch)) {
+                result.pushSingletonChar(ch);
+            }
+        }
+        return result;
+    }
+    template <typename F> string filterWithIndex(F f) const {
+        string result = "";
+        uint32_t my_slen = length();
+        for (uint32_t i = 0; i < my_slen; i++) {
+            int ch = (*this)[i];
+            if (f(ch, i)) {
+                result.pushSingletonChar(ch);
+            }
+        }
+        return result;
+    }
+    template <typename F> void forEach(F f) const {
+        uint32_t my_len = length();
+        for (uint32_t i = 0; i < my_len; i++) {
+            f((*this)[i]);
+        }
+    }
+    template <typename F> void forEachWithIndex(F f) const {
+        uint32_t my_len = length();
+        for (uint32_t i = 0; i < my_len; i++) {
+            f((*this)[i], i);
+        }
+    }
     template <typename F> string map(F f) const {
-		uint32_t len = length();
-        string result((int32_t)len);
-		char* res_data = result.data();
-		for (uint32_t i = 0; i < len; i++) {
-			res_data[i] = (char)f((*this)[i]);
-		}
-		return result;
-	}
-	template <typename F> string mapWithIndex(F f) const {
         uint32_t len = length();
-		string result((int32_t)len);
-		char* res_data = result.data();
-		for (uint32_t i = 0; i < len; i++) {
-			res_data[i] = (char)f((*this)[i], i);
-		}
-		return result;
-	}
+        string result((int32_t)len);
+        char* res_data = result.data();
+        for (uint32_t i = 0; i < len; i++) {
+            res_data[i] = (char)f((*this)[i]);
+        }
+        return result;
+    }
+    template <typename F> string mapWithIndex(F f) const {
+        uint32_t len = length();
+        string result((int32_t)len);
+        char* res_data = result.data();
+        for (uint32_t i = 0; i < len; i++) {
+            res_data[i] = (char)f((*this)[i], i);
+        }
+        return result;
+    }
     template<typename F, typename T> T reduce(T initial, F f) const {
-		T result = initial;
-		uint32_t my_len = length();
-		for (uint32_t i = 0; i < my_len; i++) {
-			result = (T)f(result, (*this)[i]);
-		}
-		return result;
-	}
-	template<typename F, typename T> T reduceRight(T initial, F f) const {
-		T result = initial;
-		for (uint32_t i = length();; i--) {
-			result = (T)f(result, (*this)[i]);
-			if (i == 0) {
-				break;
-			}
-		}
-		return result;
-	}
+        T result = initial;
+        uint32_t my_len = length();
+        for (uint32_t i = 0; i < my_len; i++) {
+            result = (T)f(result, (*this)[i]);
+        }
+        return result;
+    }
+    template<typename F, typename T> T reduceRight(T initial, F f) const {
+        T result = initial;
+        for (uint32_t i = length();; i--) {
+            result = (T)f(result, (*this)[i]);
+            if (i == 0) {
+                break;
+            }
+        }
+        return result;
+    }
 /* with.cpp */
 private:
     bool startsWithInternal(const char*, uint32_t) const;
@@ -489,7 +489,7 @@ public:
             buf, cp2utf8(buf, to)
         );
     }
-	
+    
     template<int32_t LITLEN, typename T> enable_if_ptr<T, char, string> 
     replace(const char(&from_literal)[LITLEN], T&& to) const {
         return stringlib_replace(
@@ -643,10 +643,10 @@ public:
     }
 /* misc.cpp */
     string padLeft(uint32_t max_len, char) const;
-	string padRight(uint32_t max_len, char) const;
+    string padRight(uint32_t max_len, char) const;
     int64_t parseInt();
-	float parseFloat();
-	double parseDouble();
+    float parseFloat();
+    double parseDouble();
     char* toCharArray() const;
     std::string toStl() const;
     std::vector<char> toVec() const;
@@ -656,8 +656,8 @@ private:
     string caseMapUtf8(int mode) const;
 public:
     string toUpperCase() const;
-	string toTitleCase() const;
-	string toLowerCase() const;
+    string toTitleCase() const;
+    string toLowerCase() const;
     string capitalize() const;
 /* trim.cpp */
     string trim() const;

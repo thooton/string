@@ -18,13 +18,13 @@ string string::padRight(u32 max_len, char fill) const {
 }
 
 int64_t string::parseInt() {
-	return std::strtoll(str(), nullptr, 0);
+    return std::strtoll(str(), nullptr, 0);
 }
 float string::parseFloat() {
-	return std::strtof(str(), nullptr);
+    return std::strtof(str(), nullptr);
 }
 double string::parseDouble() {
-	return std::strtod(str(), nullptr);
+    return std::strtod(str(), nullptr);
 }
 char* string::toCharArray() const {
     char* str = data();
